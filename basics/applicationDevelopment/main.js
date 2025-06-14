@@ -1,19 +1,23 @@
 const meter = document.getElementById("meter");
 const rect = meter.getBoundingClientRect();
 const hammer = document.getElementById("hammer");
+const redScore=document.getElementById("redScore");
+const greenScore=document.getElementById("greenScore");
+const turn1=document.getElementById("turn");
+const table = document.getElementById("table");
 const score = document.querySelector(".score");
 const needleContainer = document.querySelector(".needle-container");
-
+let turn="red"
 const noOfEdges = 7;
 const noOfLayers = 1;
 const weights = [0, 0, 30, 60, 90, 60, 30, 0]; // Indexed from 1
-
+const Gamescore={red:0,green:0}
 // Position hammer aligned with meter
-hammer.style.position = "absolute";
+hammer.style.position = "relative";
 hammer.style.transform = "rotate(0deg)";
 hammer.style.left="0px"
-hammer.style.top = `${rect.top +rect.top*0.5 }px`;
-hammer.style.left = `${window.innerWidth/2 }px`;
+hammer.style.top = `${-100}px`;
+table.style.marginLeft = `${rect.left  - 50}px`;
 
 function hit() {
     const angularVelocity = 4; // radians/sec
@@ -38,10 +42,20 @@ function hit() {
 
 function weightAssign() {
     const r = [90];
-    const needle = document.getElementById("needle");
-    const needleRect = needle.getBoundingClientRect();
-    const xCentre = needleRect.left + window.scrollX+60;
-    const yCentre = needleRect.top + window.scrollY-520;
+    const needle = document.getElementById('needle');
+const needleContainer = document.querySelector('.needle-container');
+
+// First find bounds of both
+const needleRect = needle.getBoundingClientRect();
+const containerRect = needleContainer.getBoundingClientRect();
+
+
+// To find center of needle **within its parent**
+const xCentre = (needleRect.left - containerRect.left) + needleRect.width / 2;
+const yCentre = (needleRect.top - containerRect.top) + needleRect.height / 2;
+
+console.log('Needle center (within parent) => X:', xCentre, 'Y:', yCentre);
+    
     let k = 1;
 
     for (let i = 0; i < noOfLayers; i++) {
@@ -56,8 +70,8 @@ function weightAssign() {
             node.className = "node";
             node.id = k;
             node.innerText = `${Math.floor((100 / 90) * weights[k])}`;
-            node.style.left = `${x - 10}px`;  // -10 to center the label
-            node.style.top = `${y - 10}px`;   // -10 to center the label
+            node.style.left = `${x + x * 0.05}px`; 
+            node.style.top = `${y - y * 0.15}px`;  
             node.value = (k - 1) * 30;
 
             needleContainer.appendChild(node);
@@ -128,11 +142,25 @@ function render() {
     const updateScoreInterval = setInterval(() => {
         if (dummyScore >= value) {
             clearInterval(updateScoreInterval);
+            
+            if(turn === "red") {
+                Gamescore.red += value;
+                redScore.innerHTML = `<h1>${Gamescore.red}</h1>`;
+            }
+            else{
+                Gamescore.green += value;
+                greenScore.innerHTML = `<h1>${Gamescore.green}</h1>`;
+            }
+            
+            turn= turn === "red" ? "green" : "red";
+            turn1.innerHTML = `${turn}'s Turn`;
+            needle()
         } else {
             dummyScore += 1;
             score.innerHTML = `<h1>${dummyScore}</h1>`;
         }
     }, 30);
+    
 }
 
 needle();
