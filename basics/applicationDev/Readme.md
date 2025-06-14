@@ -1,3 +1,6 @@
+Just clone the repo and open the html file with live server
+
+
 Welcome to the Hammer Strength Game
 
 This is a two-player game featuring a "red" and a "green" player.
