@@ -1,10 +1,10 @@
-import React, { cache, useEffect, useState } from 'react'
+import React, {  useEffect, useState } from 'react'
 import { useContext } from 'react'
 import { GameContext } from './gameContext.jsx'
 import '../index.css';
-import { set } from 'mongoose';
+
 function Powerups({ power }) {
-    const { powerup, setPowerup, powerClick,cache, setPowerClick,setmoveTime, turn, board ,round,setRound,setTurn,blockClickedIndex, setBlockClickedIndex,setswapClick} = useContext(GameContext);
+    const { powerup, setPowerup, powerClick, setPowerClick,setmoveTime, turn, board ,round,setRound,setTurn,blockClickedIndex, setBlockClickedIndex,setswapClick} = useContext(GameContext);
     const [display, setDisplay] = useState("hidden")
     useEffect(() => {
         if (turn == "Y" && power == "yellow" && powerClick) {
@@ -51,25 +51,37 @@ function Powerups({ power }) {
 
     return (
         <>
-            <div className={display} >
-                <div className='bg-white p-8 rounded-lg shadow-lg'>
-                    <div className='flex space-around gap-16'>
-                        <h2 className='text-lg font-bold mb-4'>Power Ups</h2>
-                        <button className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 cursor-pointer" onClick={handleClose}>close</button>
-                    </div>
+            <div className={display}>
+  <div className='bg-white p-8 rounded-lg shadow-lg flex flex-col items-center justify-center space-y-6 w-96'>
+    {/* Header Section */}
+    <div className='flex w-full justify-between items-center mb-4'>
+      <h2 className='text-lg font-bold'>Power Ups</h2>
+      <button 
+        className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 transition ease-in-out" 
+        onClick={handleClose}>
+        Close
+      </button>
+    </div>
 
-                    <div className='flex'>
-                        
+    {/* Buttons Section */}
+    <div className='flex w-full justify-around gap-6'>
+      <button 
+        value={list[0]} 
+        className={powerup[list[0]]} 
+        onClick={handleSwapPiece}>
+        Dec Next Move Time
+      </button>
 
-
-                    </div>
-                    
-                    <button value={list[0]} className={powerup[list[0]]} onClick={handleSwapPiece}>Dec next move Time</button>
-                    <button value={list[1]} className={powerup[list[1]]} onClick={handleExtraTurn}>Extra Turn</button>
-
-                </div>
-
-            </div></>
+      <button 
+        value={list[1]} 
+        className={powerup[list[1]]} 
+        onClick={handleExtraTurn}>
+        Extra Turn
+      </button>
+    </div>
+  </div>
+</div>
+</>
 
     )
 }

@@ -5,7 +5,7 @@ import '../index.css'
 
 
 function Grid({ column }) {
-  const {setBlockClicked,gridcss,gridcss1,swapClick,setswapClick,swapmove,setswapmove, setBlockClickedIndex, setDropClicked, setDropClickedIndex, round, setRound,board,gameStarted,turn,moveHistory, setMoveHistory } = useContext(GameContext);
+  const {setBlockClicked,gridcss,gridcss1,swapClick,setswapClick,swapmove,setswapmove,gameround,setgameround, setBlockClickedIndex, setDropClicked, setDropClickedIndex, round, setRound,board,gameStarted,turn,moveHistory, setMoveHistory } = useContext(GameContext);
   const [sixcolumn,setsixColumn]=useState(false)
   function isSixFullColumns(board){
     let fullColumns = 0;
@@ -40,8 +40,9 @@ function Grid({ column }) {
       if(!sixcolumn){
         setBlockClicked(true);
       setBlockClickedIndex(`Y${column}`);
-      setMoveHistory([...moveHistory, `${round}BY${column}`]);
-      setRound(round + 1);
+      setMoveHistory([...moveHistory, `${gameround}BY${column}`]);
+      setRound(prev=>prev+1);
+      setgameround(prev=>prev+1)
       setDropClicked(false);
       }
       else{
@@ -54,16 +55,18 @@ function Grid({ column }) {
     else if (((round + 2) / 4) % 1 == 0) {
       setDropClicked(true);
       setDropClickedIndex(`R${column}`);
-      setMoveHistory([...moveHistory, `${round}DR${column}`]);
+      setMoveHistory([...moveHistory, `${gameround}DR${column}`]);
       setBlockClicked(false);
-      setRound(round + 1);
+      setRound(prev=>prev+1);
+      setgameround(prev=>prev+1)
     }
     else if (((round + 1) / 4) % 1 == 0) {
       if(!sixcolumn){
       setBlockClicked(true);
       setBlockClickedIndex(`R${column}`);
-      setMoveHistory([...moveHistory, `${round}BR${column}`]);
-      setRound(round + 1);
+      setMoveHistory([...moveHistory, `${gameround}BR${column}`]);
+      setRound(prev=>prev+1);
+      setgameround(prev=>prev+1)
       setDropClicked(false);
       }
 
@@ -75,9 +78,10 @@ function Grid({ column }) {
     else if (((round) / 4) % 1 == 0) {
       setDropClicked(true);
       setDropClickedIndex(`Y${column}`);
-      setMoveHistory([...moveHistory, `${round}DY${column}`]);
+      setMoveHistory([...moveHistory, `${gameround}DY${column}`]);
       setBlockClicked(false);
-      setRound(round + 1);
+      setRound(prev=>prev+1);
+      setgameround(prev=>prev+1)
     }
     else {
       setBlockClicked(false);

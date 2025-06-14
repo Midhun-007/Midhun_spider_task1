@@ -3,11 +3,11 @@ import { useContext, useState } from 'react'
 import { GameContext } from './gameContext.jsx'
 import '../index.css';
 import Grid from './Grid.jsx';
-import { set } from 'mongoose';
+
 function Header() {
     // Game logic goes here
 
-    const { blockClickedIndex, setDropClicked,setTurn,setRound, setDropClickedIndex,setBlockClicked,setBlockClickedIndex,board, setgridcss1, round, overallTime, moveTime, turn,buttoncss, setbuttoncss, setGameStarted, setGamePaused, setGameOver, setappcss, setgridcss, setheadercss, settoggle1, gridcss, appcss, headercss, toggle1, powerClick, setPowerClick,moveHistory, setMoveHistory,setBoard } = useContext(GameContext);
+    const { blockClickedIndex,setgameround, setDropClicked,setTurn,setRound, gameround,setDropClickedIndex,setBlockClicked,setBlockClickedIndex,board, setgridcss1, round, overallTime, moveTime, turn,buttoncss, setbuttoncss, setGameStarted, setGamePaused, setGameOver, setappcss, setgridcss, setheadercss, settoggle1, gridcss, appcss, headercss, toggle1, powerClick, setPowerClick,moveHistory, setMoveHistory,setBoard } = useContext(GameContext);
     function moveDisplayHandler() {
         if (((round + 3) / 4) % 1 == 0) {
             return `Yellow to Block`;
@@ -53,7 +53,10 @@ function Header() {
         setPowerClick(true)
     }
     function handleUndo(){
+        if (moveHistory.length === 0) return;
         const move=moveHistory[moveHistory.length-1]
+        console.log(move)
+        console.log(moveHistory)
         if(move[1]=="D"){
         const column=parseInt(move[3])-1
         let  arr=[...board]
@@ -65,7 +68,8 @@ function Header() {
         setDropClicked(false)
         setBlockClickedIndex(0)
         setTurn(turn === "Y" ? "R" : "Y")
-        setRound(round - 1)
+        setRound(prev=>prev-1)
+        
         setMoveHistory(moveHistory.slice(0, moveHistory.length - 1))
         
         setBoard(arr)
@@ -73,7 +77,8 @@ function Header() {
     }
         else{
             setBlockClickedIndex(0)
-            setRound(round - 1)
+            setRound(prev=>prev-1)
+            
             setTurn(turn === "Y" ? "R" : "Y")
             
             setMoveHistory(moveHistory.slice(0, moveHistory.length - 1))

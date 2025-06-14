@@ -28,13 +28,14 @@ export const GameProvider = ({ children }) => {
   const [cache,setCache]=useState("")
   const [swapClick,setswapClick]=useState(false)
   const [swapmove,setswapmove]=useState([])
+  const [gameround,setgameround]=useState(0)
   const [buttoncss, setbuttoncss] = useState('p-2 bg-blue-500 text-white rounded mb-4 hover:bg-blue-600 cursor-pointer')
   const [replay,setReplay] = useState(false); // To handle replay functionality
   const [moveHistory, setMoveHistory] = useState([]); // To store the history of moves
   const [powerup, setPowerup] = useState(['bg-blue-500 text-white px-4 py-2 rounded ', 'bg-blue-500 text-white px-4 py-2 rounded ', 'bg-blue-500 text-white px-4 py-2 rounded ', 'bg-blue-500 text-white px-4 py-2 rounded '])//red,yellow,swap,extra turn
   return (
     <GameContext.Provider value={{ score, setScore, gameOver, setGameOver,
-     blockClicked, setBlockClicked, blockClickedIndex,buttoncss, setbuttoncss,
+     blockClicked, setBlockClicked, blockClickedIndex,buttoncss, setbuttoncss,gameround,setgameround,
       setBlockClickedIndex, dropClicked, setDropClicked,replay,setReplay,
        dropClickedIndex, setDropClickedIndex, round, setRound,
         board, setBoard, updatedColumn, setupdatedColumn, 

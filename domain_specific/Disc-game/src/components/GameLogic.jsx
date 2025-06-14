@@ -5,34 +5,37 @@ import '../index.css';
 
 function GameLogic() {
     const {board,setBoard, blockClicked,setmoveTime
-        , blockClickedIndex,swapClick,setswapClick, dropClicked,setBlockClickedIndex, setDropClicked, setDropClickedIndex, dropClickedIndex, round, setRound,setTurn,cache,setCache,turn } = useContext(GameContext);
+        , blockClickedIndex,swapClick,setswapClick,replay, dropClicked,setBlockClickedIndex, setDropClicked, setDropClickedIndex, dropClickedIndex, round, setRound,setTurn,cache,setCache,turn } = useContext(GameContext);
     function MoveHandler(){
          if (blockClicked) {
             // Handle block movement
            console.log("inside block")
             if(blockClickedIndex[0] == "Y" ){
                 // Yellow disc block logic
-                setTurn("R")
+                if(!replay){setTurn("R")
                 if(swapClick){
                     setmoveTime(7)
                     setswapClick(false)
                 }
                 else{
                     setmoveTime(10)
-                }
+                }}
+                
                 
                 
                 
             } else if (blockClickedIndex[0] == "R" ) {
                 // Red disc block logic
-                setTurn("Y")
+                
+                if(!replay){
+                    setTurn("Y")
                 if(swapClick){
                     setmoveTime(7)
                     setswapClick(false)
                 }
                 else{
                     setmoveTime(10)
-                }
+                }}
                 
             }
         } else if (dropClicked && dropClickedIndex[1] != blockClickedIndex[1]) {
@@ -42,29 +45,33 @@ function GameLogic() {
             // Handle drop movement
             if (dropClickedIndex[0] == "Y" ) {
                 // Yellow disc drop logic
-                setTurn("Y")
+                
+                if(!replay){
+                    setTurn("Y")
                 if(swapClick){
                     setmoveTime(7)
                     setswapClick(false)
                 }
                 else{
                     setmoveTime(10)
-                }
+                }}
                 setDropClickedIndex(false);
-                changeBoard("Y",dropClickedIndex[1]);
+                changeBoard("Y",parseInt(dropClickedIndex[1]));
                 
             } else if (dropClickedIndex[0] == "R" && dropClickedIndex[1] != blockClickedIndex[1]) {
                 // Red disc drop logic
-                setTurn("R")
+                
                 setDropClickedIndex(false);
+                if(!replay){
+                setTurn("R")
                 if(swapClick){
                     setmoveTime(7)
                     setswapClick(false)
                 }
                 else{
                     setmoveTime(10)
-                }
-                changeBoard("R",dropClickedIndex[1]);
+                }}
+                changeBoard("R",parseInt(dropClickedIndex[1]));
                 
             }
         }
